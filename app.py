@@ -24,6 +24,12 @@ route = st.sidebar.selectbox("Route (Origin → Destination)", ROUTES)
 commodity = st.sidebar.selectbox("Commodity", ["Coal", "Coking Coal", "Iron Ore", "Limestone"])
 qty = st.sidebar.number_input("Cargo Quantity (MT)", 1000, 300000, 70000, 1000)
 horizon = st.sidebar.selectbox("Forecast Horizon (days)", [7, 14, 30], index=1)
+max_date = rates["date"].max().date()
+min_date = (rates["date"].min() + pd.Timedelta(days=60)).date()
+sim_date = st.sidebar.date_input("📅 Simulate 'today' (data up to)",
+                                 value=max_date, min_value=min_date, max_value=max_date)
+rates = rates[rates["date"] <= pd.Timestamp(sim_date)]
+ind = ind[ind["date"] <= pd.Timestamp(sim_date)]
 
 origin, dest = route.split("-")
 port = ports[ports["port_name"] == dest].iloc[0]
