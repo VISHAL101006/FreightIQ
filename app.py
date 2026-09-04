@@ -30,7 +30,35 @@ sim_date = st.sidebar.date_input("📅 Simulate 'today' (data up to)",
                                  value=max_date, min_value=min_date, max_value=max_date)
 rates = rates[rates["date"] <= pd.Timestamp(sim_date)]
 ind = ind[ind["date"] <= pd.Timestamp(sim_date)]
+# ================= SIMULATE NEXT DAY'S DATA =================
+def append_next_day():
+    r = pd.read_csv("data/freight_rates.csv", parse_dates=["date"])
+    i = pd.read_csv("data/market_indicators.csv", parse_dates=["date"])
+    new_date = r["date"].max() + pd.Timedelta(days=1)
+    li = i.iloc[-1]
+    new_fuel = round(li["fuel_price_usd"] + np.random.normal(0, 2), 1)
+    new_ind_row = pd.DataFrame([{
+        "date": new_date,
+        "fuel_price_usd": new_fuel,
+        "tension_index": round(np.clip(li["tension_index"] + np.random.normal(0, 3), 0, 100), 1),
+        "weather_risk": round(np.clip(li["weather_risk"] + np.random.normal(0, 0.8), 0, 10), 1),
+        "congestion_index": round(np.clip(li["congestion_index"] + np.random.normal(0, 0.6), 0, 10), 1),
+    }])
+    rows = []
+    for (rt, vc), grp in r.groupby(["route", "vessel_class"]):
+        last_rate = grp.sort_values("date").iloc[-1]["rate_usd_per_tonne"]
+        step = np.random.normal(0, 0.3) + 0.02 * (new_fuel - li["fuel_price_usd"])
+        rows.append({"date": new_date, "route": rt,
+                     "origin": rt.split("-")[0], "destination": rt.split("-")[1],
+                     "vessel_class": vc,
+                     "rate_usd_per_tonne": round(max(last_rate + step, 5), 2)})
+    pd.concat([r, pd.DataFrame(rows)], ignore_index=True).to_csv("data/freight_rates.csv", index=False)
+    pd.concat([i, new_ind_row], ignore_index=True).to_csv("data/market_indicators.csv", index=False)
 
+if st.sidebar.button("➕ Simulate next day's market data"):
+    append_next_day()
+    st.cache_data.clear()
+    st.rerun()
 origin, dest = route.split("-")
 port = ports[ports["port_name"] == dest].iloc[0]
 latest = ind.iloc[-1]
