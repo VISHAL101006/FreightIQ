@@ -1,0 +1,4 @@
+port_name,country,max_draft_m,max_length_m,avg_waiting_days,congestion_level
+Paradip,India,14.5,250,1.8,medium
+Visakhapatnam,India,13.5,230,2.4,high
+Krishnapatnam,India,15.0,260,1.2,low
