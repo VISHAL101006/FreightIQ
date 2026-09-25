@@ -8,7 +8,7 @@
 
 ### 📸 Prototype Screenshots
 
-| Main Dashboard & Recommendation | Risk Engine Breakdown | Split-Cargo Planner (150k MT) |
+| Forecast Graph | Risk Engine Breakdown | Dashboard & Split-Cargo Planner (150k MT) |
 | :---: | :---: | :---: |
 | ![Forecast](./assets/forecast.png) | ![Risk](./assets/risk.png) | ![Split/Dashboard](./assets/split_cargo.png) |
 
