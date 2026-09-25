@@ -50,6 +50,10 @@
 
         streamlit run app.py
 
+## Run with Docker
+docker build -t freightiq .
+docker run -p 8501:8501 freightiq
+
 ## 📊 Data Sources & Methodology
 
 - **Market indices:** Baltic Exchange (BDI); Brent Crude via yfinance.

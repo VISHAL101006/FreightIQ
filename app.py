@@ -3,6 +3,16 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
+from sklearn.linear_model import LinearRegression
+from scipy import stats
+
+def fit_model(y, fuel):
+    fm = fuel.mean()
+    A = design(np.arange(len(y)), fuel, fm)
+    model = LinearRegression(fit_intercept=False).fit(A, y)   # scikit-learn least squares
+    coef = model.coef_
+    sigma = (y - A @ coef).std()
+    return coef, sigma, fm
 
 st.set_page_config(page_title="FreightIQ", layout="wide")
 
@@ -107,7 +117,7 @@ def forecast(route_name, vclass, horizon):
     days = np.arange(n + 1, n + horizon + 1)
     fuel_f = fuel[-1] + 0.5 * fslope * np.arange(1, horizon + 1)
     pred = design(days, fuel_f, fm) @ coef
-    band = 1.28 * sigma * np.sqrt(np.arange(1, horizon + 1))   # 80% CI
+    band = stats.norm.ppf(0.90) * sigma * np.sqrt(np.arange(1, horizon + 1))   # 80% CI via scipy z-score
     return {"today": y[-1], "pred": pred, "band": band, "sigma": sigma,
             "coef": coef, "fm": fm, "fuel_now": fuel[-1], "fuel_f": fuel_f,
             "n": n, "days": days}

@@ -6,6 +6,7 @@ import os
 np.random.seed(42)
 os.makedirs("data", exist_ok=True)
 
+
 print("Fetching REAL global market data (Brent Crude & BDI)...")
 
 # 1. Fetch REAL Brent Crude Oil Prices (Fuel proxy)
