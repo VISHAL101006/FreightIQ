@@ -2,7 +2,7 @@
 
 **FreightIQ** is a predictive decision engine built for the **Ministry of Steel** to optimize bulk cargo vessel chartering. It replaces reactive, manual market checks with data-driven forecasting, physical vessel feasibility checks, and dynamic risk scoring.
 
-> 🏆 **Smart India Hackathon 2026** | Problem Statement: **SIH26006** | Team: **Zenith**
+> 🏆 **Smart India Hackathon 2026** | Problem Statement: **SIH26006** | Team: **ZENITH**
 
 ---
 
