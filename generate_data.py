@@ -11,7 +11,7 @@ print("Fetching REAL global market data (Brent Crude & BDI)...")
 # 1. Fetch REAL Brent Crude Oil Prices (Fuel proxy)
 try:
     fuel_data = yf.download("BZ=F", period="6mo", interval="1d", progress=False)
-    fuel_prices = fuel_data['Close'].dropna().values
+    fuel_prices = fuel_data['Close'].squeeze().dropna().values
     if len(fuel_prices) < 180:
         fuel_prices = np.pad(fuel_prices, (180 - len(fuel_prices), 0), mode='edge')
 except:
@@ -20,7 +20,7 @@ except:
 # 2. Fetch REAL Baltic Dry Index (BDI)
 try:
     bdi_data = yf.download("^BDI", period="6mo", interval="1d", progress=False)
-    bdi = bdi_data['Close'].dropna().values
+    bdi = bdi_data['Close'].squeeze().dropna().values
     if len(bdi) < 180:
         bdi = np.linspace(1400, 1800, 180) + np.random.normal(0, 50, 180)
 except:

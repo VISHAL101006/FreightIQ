@@ -1,5 +1,5 @@
 vessel_class,capacity_min_mt,capacity_max_mt,draft_m,typical_daily_hire_usd
-Handysize,20000,40000,10.5,14000
-Supramax,45000,65000,12.5,18000
+Handysize,15000,40000,10.5,14000
+Supramax,50000,60000,12.0,18000
 Panamax,65000,85000,14.0,22000
 Capesize,100000,180000,18.0,30000
